@@ -1,0 +1,6 @@
+app:
+  llm:
+    base-url: https://api.deepseek.com
+    model: deepseek-chat
+    embedding-enabled: false
+    api-key: ${DEEPSEEK_API_KEY:}

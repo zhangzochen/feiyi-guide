@@ -1,0 +1,7 @@
+backend/target/
+deepseek-key.txt
+tunnel-*.log
+*.zip
+.dsh-office-*
+.idea/
+*.iml

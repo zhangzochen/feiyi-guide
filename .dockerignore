@@ -1,0 +1,6 @@
+.git
+backend/target
+docs
+*.zip
+deepseek-key.txt
+tunnel-*.log

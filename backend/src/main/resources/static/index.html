@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="见物·知艺：基于 RAG 知识库的 AI 非遗讲解员。问一件展品，听它讲自己的故事。">
+  <title>见物 · 知艺 | AI 非遗讲解员</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="paper-noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="见物知艺首页">
+      <span class="brand-seal">见</span>
+      <span class="brand-text"><strong>见物 · 知艺</strong><small>AI 非遗讲解员</small></span>
+    </a>
+    <nav class="nav">
+      <a href="#exhibits">展品</a>
+      <a href="#how">讲解方式</a>
+      <a href="#about">关于</a>
+    </nav>
+    <button class="nav-cta" id="navAsk" type="button">问讲解员 <span>↗</span></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">INTANGIBLE CULTURAL HERITAGE · AI GUIDE</p>
+        <h1><span>让每一件非遗，</span><br><em>都能开口讲故事。</em></h1>
+        <p class="hero-lead">不是背一段固定的解说词。你问它历史、工艺、纹样、产地，它会从展馆知识库里找到依据，再用讲解员的口吻讲给你听。</p>
+
+        <form class="hero-search" id="heroForm">
+          <span class="search-mark">问</span>
+          <input id="heroInput" type="text" autocomplete="off" placeholder="比如：青花瓷的蓝色从哪里来？">
+          <button type="submit">问讲解员</button>
+        </form>
+
+        <div class="hero-notes">
+          <span><b id="statExhibits">09</b> 项非遗</span>
+          <span><b id="statDocs">16</b> 份讲解词</span>
+          <span><b id="statChunks">50</b> 个知识片段</span>
+        </div>
+
+        <div class="hero-actions">
+          <button class="btn-line" id="randomBtn" type="button">今日一物 <span>↗</span></button>
+          <button class="btn-line" id="visitBtn" type="button">我的足迹 <b id="visitCount">0</b></button>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-ring ring-one"></div>
+        <div class="hero-ring ring-two"></div>
+        <div class="hero-stamp">非<br>遗</div>
+        <div class="hero-card">
+          <span class="hero-card-kicker">今日讲解</span>
+          <strong>青花瓷的蓝色<br>从哪里来？</strong>
+          <span class="hero-card-note">钴料 · 釉下彩 · 1300℃</span>
+        </div>
+        <div class="vertical-quote">见物 · 知艺 · 传心</div>
+        <span class="hero-index">NO. 01 / 09</span>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>景德镇制瓷</span><i>◆</i><span>苏绣</span><i>◆</i><span>昆曲</span><i>◆</i><span>中国剪纸</span><i>◆</i><span>西湖龙井</span><i>◆</i><span>龙泉青瓷</span><i>◆</i><span>侗族大歌</span><i>◆</i><span>扬州漆器</span><i>◆</i><span>皮影戏</span><i>◆</i>
+        <span>景德镇制瓷</span><i>◆</i><span>苏绣</span><i>◆</i><span>昆曲</span><i>◆</i><span>中国剪纸</span><i>◆</i><span>西湖龙井</span><i>◆</i><span>龙泉青瓷</span><i>◆</i><span>侗族大歌</span><i>◆</i><span>扬州漆器</span><i>◆</i><span>皮影戏</span><i>◆</i>
+      </div>
+    </div>
+
+    <section class="collection" id="exhibits">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">THE COLLECTION</p>
+          <h2>九件展品，九种手艺</h2>
+        </div>
+        <p class="section-note">每一件展品都有一份自己的知识库。点开它，先听一段，再问一句。</p>
+      </div>
+
+      <div class="filters" id="filters" role="group" aria-label="按类别筛选"></div>
+      <div class="exhibit-grid" id="exhibitGrid"></div>
+    </section>
+
+    <section class="how" id="how">
+      <div class="how-intro">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>不是背解说词，<br>而是读懂你的问题。</h2>
+        <p>讲解员先理解你在问什么，再去知识库里找最相关的段落。答案下面会标出来源，重要信息可以回到原文核对。</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="step-no">01</span>
+          <div><h3>一座小型知识库</h3><p>把展品的历史、工艺、纹样、产地和参观提示拆成可检索的段落。</p></div>
+        </li>
+        <li>
+          <span class="step-no">02</span>
+          <div><h3>先检索，再回答</h3><p>用向量相似度和关键词重合度混合检索，先找依据，再组织语言。</p></div>
+        </li>
+        <li>
+          <span class="step-no">03</span>
+          <div><h3>答案可以追溯</h3><p>每条回答都带来源。找不到依据时，它会直接说“不确定”，而不是编一个故事。</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="about" id="about">
+      <div class="about-mark">见</div>
+      <div class="about-copy">
+        <p class="eyebrow">ABOUT THIS GUIDE</p>
+        <h2>让非遗被听懂，<br>也被记住。</h2>
+        <p>“见物 · 知艺”是一个面向展馆场景的 AI 讲解员原型。它不替代讲解员，而是把展品背后那些容易被忽略的细节，变成可以随时追问的对话。</p>
+        <p class="about-small">本项目为课程/展示原型，展品信息用于演示。现场参观请以展馆官方说明为准。</p>
+      </div>
+      <div class="about-stats">
+        <div><strong id="aboutExhibits">9</strong><span>项非遗</span></div>
+        <div><strong id="aboutChunks">50</strong><span>个知识片段</span></div>
+        <div><strong>1</strong><span>个可追问的讲解员</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-brand"><span class="brand-seal small">见</span><span>见物 · 知艺</span></div>
+    <p>AI 非遗讲解员 · RAG 知识库演示</p>
+    <p class="footer-note">见物，知艺，传心。</p>
+  </footer>
+
+  <div class="modal" id="detailModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="1"></div>
+    <article class="detail" role="dialog" aria-modal="true" aria-labelledby="detailName">
+      <button class="modal-close" id="modalClose" type="button" aria-label="关闭">×</button>
+      <div class="detail-visual">
+        <img id="detailImage" src="" alt="">
+      </div>
+      <div class="detail-body">
+        <p class="eyebrow" id="detailCategory">陶瓷</p>
+        <h2 id="detailName">展品名称</h2>
+        <p class="detail-summary" id="detailSummary"></p>
+        <div class="detail-meta" id="detailMeta"></div>
+
+        <div class="detail-tabs" role="tablist">
+          <button class="detail-tab active" type="button" data-tab="overview">概览</button>
+          <button class="detail-tab" type="button" data-tab="craft">工艺</button>
+          <button class="detail-tab" type="button" data-tab="visit">参观</button>
+        </div>
+
+        <div class="detail-panel active" data-panel="overview">
+          <p class="detail-desc" id="detailDescription"></p>
+          <p class="detail-quote" id="detailQuote"></p>
+          <div class="detail-highlight">
+            <span>看什么</span>
+            <p id="detailHighlights"></p>
+          </div>
+          <div class="detail-fun">
+            <span>冷知识</span>
+            <p id="detailFun"></p>
+          </div>
+        </div>
+
+        <div class="detail-panel" data-panel="craft">
+          <div class="craft-meta">
+            <div><span>材料</span><strong id="detailMaterial"></strong></div>
+            <div><span>关键技法</span><strong id="detailTechnique"></strong></div>
+          </div>
+          <div class="timeline" id="craftSteps"></div>
+        </div>
+
+        <div class="detail-panel" data-panel="visit">
+          <div class="visit-tip">
+            <span>参观提示</span>
+            <p id="detailVisitTip"></p>
+          </div>
+          <div class="related">
+            <span>相关展品</span>
+            <div class="related-list" id="relatedList"></div>
+          </div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="btn-ink" id="listenBtn" type="button"><span>◉</span> 听讲解</button>
+          <button class="btn-line" id="askAboutBtn" type="button">问讲解员 <span>↗</span></button>
+          <button class="btn-line" id="checkinBtn" type="button">打卡这件展品</button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <div class="drawer-backdrop" id="visitBackdrop"></div>
+  <aside class="visit-drawer" id="visitDrawer" aria-hidden="true">
+    <header class="drawer-head">
+      <div><strong>我的足迹</strong><small>打卡 · 路线 · 收藏</small></div>
+      <button id="visitClose" type="button" aria-label="关闭">×</button>
+    </header>
+    <div class="visit-progress">
+      <div class="progress-track"><i id="visitBar"></i></div>
+      <span id="visitProgress">0 / 9</span>
+    </div>
+    <div class="visit-list" id="visitList"></div>
+    <button class="btn-ink route-btn" id="routeBtn" type="button">生成我的参观路线</button>
+    <div class="route-box" id="routeBox"></div>
+    <button class="link-btn" id="clearVisits" type="button">清空足迹</button>
+  </aside>
+
+  <aside class="chat-panel" id="chatPanel" aria-hidden="true">
+    <header class="chat-head">
+      <div class="chat-title">
+        <span class="ai-dot"></span>
+        <div><strong>AI 讲解员</strong><small>RAG · 答案可追溯</small></div>
+      </div>
+      <button class="chat-close" id="chatClose" type="button" aria-label="收起">×</button>
+    </header>
+    <div class="chat-context" id="chatContext" hidden>
+      <span>正在聊</span><strong id="chatContextName"></strong>
+      <button id="clearContext" type="button">清除</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <form class="chat-form" id="chatForm">
+      <button class="mic" id="micBtn" type="button" aria-label="语音输入">◉</button>
+      <input id="chatInput" type="text" autocomplete="off" placeholder="问一件展品的事…">
+      <button type="submit" aria-label="发送">发送</button>
+    </form>
+    <p class="chat-note">回答基于展馆知识库；重要信息请以现场说明为准。</p>
+  </aside>
+
+  <button class="chat-fab" id="chatFab" type="button"><span>问</span> 问讲解员</button>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
